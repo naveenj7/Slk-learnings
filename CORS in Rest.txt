@@ -1,0 +1,33 @@
+Enabling Cross Origin Requests for a RESTful Web Service
+
+You can enable cross-origin resource sharing (CORS) from either in individual controllers or globally. 
+
+1.Controller Method CORS Configuration
+
+2.Global CORS configuration
+
+Controller Method CORS Configuration
+So that the RESTful web service will include CORS access control headers in its response, 
+you have to add a @CrossOrigin annotation to the handler method,
+
+
+
+2.Global CORS configuration
+Create a class and add the below configuration in the spring boot application.
+
+    package com.myapp.springboot.configs;
+    import org.springframework.context.annotation.Configuration;
+    import org.springframework.web.servlet.config.annotation.CorsRegistry;
+    import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+    
+    @Configuration
+    public class WebMvcConfiguration implements WebMvcConfigurer {
+        @Override
+       public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/*").//mappings
+        allowedOrigins("*").//"http://domain2.com"
+        allowedMethods("*").//put,post,get
+        allowedHeaders("*").//("Content-Type", "Accept")
+        allowCredentials(false);
+        }
+    }
