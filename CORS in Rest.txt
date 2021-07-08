@@ -12,8 +12,9 @@ you have to add a @CrossOrigin annotation to the handler method,
 
 
 
-2.Global CORS configuration
-Create a class and add the below configuration in the spring boot application.
+2.Spring CORS – Global CORS configuration
+2.1. Implement WebMvcConfigurer
+To enable CORS for the whole application, use WebMvcConfigurer to add CorsRegistry
 
     package com.myapp.springboot.configs;
     import org.springframework.context.annotation.Configuration;
@@ -31,3 +32,25 @@ Create a class and add the below configuration in the spring boot application.
         allowCredentials(false);
         }
     }
+2.2. WebMvcConfigurer Bean
+In spring boot application, it is recommended to just declare a WebMvcConfigurer bean.
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+public class CorsConfiguration 
+{
+    @Bean
+    public WebMvcConfigurer corsConfigurer() 
+    {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedOrigins("http://localhost:4200");
+            }
+        };
+    }
+}
